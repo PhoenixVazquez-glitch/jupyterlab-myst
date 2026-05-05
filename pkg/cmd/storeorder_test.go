@@ -5,7 +5,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/init_omega.py-cli/internal/mocktest"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/mocktest"
 )
 
 func TestStoreOrdersCreate(t *testing.T) {

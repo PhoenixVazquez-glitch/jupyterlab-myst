@@ -16,10 +16,10 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/stainless-sdks/init_omega.py-cli/internal/apiform"
-	"github.com/stainless-sdks/init_omega.py-cli/internal/apiquery"
-	"github.com/stainless-sdks/init_omega.py-cli/internal/debugmiddleware"
-	"github.com/stainless-sdks/init_omega.py-cli/internal/requestflag"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/apiform"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/apiquery"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/debugmiddleware"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/requestflag"
 	"github.com/stainless-sdks/init_omega.py-go/option"
 
 	"github.com/goccy/go-yaml"
