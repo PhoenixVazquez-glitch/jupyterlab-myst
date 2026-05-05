@@ -12,8 +12,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/stainless-sdks/init_omega.py-cli/internal/autocomplete"
-	"github.com/stainless-sdks/init_omega.py-cli/internal/requestflag"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/autocomplete"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/requestflag"
 	docs "github.com/urfave/cli-docs/v3"
 	"github.com/urfave/cli/v3"
 )

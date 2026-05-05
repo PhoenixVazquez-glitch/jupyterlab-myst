@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/init_omega.py-cli
+module github.com/PhoenixVazquez-glitch/jupyterlab-myst
 
 go 1.25
 

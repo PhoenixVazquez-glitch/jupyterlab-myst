@@ -5,8 +5,8 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/init_omega.py-cli/internal/mocktest"
-	"github.com/stainless-sdks/init_omega.py-cli/internal/requestflag"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/mocktest"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/requestflag"
 )
 
 func TestPetsCreate(t *testing.T) {

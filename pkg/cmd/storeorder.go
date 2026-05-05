@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/stainless-sdks/init_omega.py-cli/internal/apiquery"
-	"github.com/stainless-sdks/init_omega.py-cli/internal/requestflag"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/apiquery"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/requestflag"
 	"github.com/stainless-sdks/init_omega.py-go"
 	"github.com/stainless-sdks/init_omega.py-go/option"
 	"github.com/tidwall/gjson"

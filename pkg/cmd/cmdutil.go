@@ -16,7 +16,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/stainless-sdks/init_omega.py-cli/internal/jsonview"
+	"github.com/PhoenixVazquez-glitch/jupyterlab-myst/internal/jsonview"
 	"github.com/stainless-sdks/init_omega.py-go/option"
 
 	"github.com/charmbracelet/x/term"
