@@ -1,57 +1,32 @@
-name: "Step 2: Publish Release"
+---
+name: Publish Release
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: "The target branch"
-        required: false
-      release_url:
-        description: "The URL of the draft GitHub release"
-        required: false
-      steps_to_skip:
-        description: "Comma separated list of steps to skip"
-        required: false
-
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch: {}
 jobs:
-  publish_release:
+  goreleaser:
     runs-on: ubuntu-latest
-    permissions:
-      # This is useful if you want to use PyPI trusted publisher
-      # and NPM provenance
-      id-token: write
     steps:
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-
-      - name: Populate Release
-        id: populate-release
-        uses: jupyter-server/jupyter_releaser/.github/actions/populate-release@v2
-        with:
-          token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
-          branch: ${{ github.event.inputs.branch }}
-          release_url: ${{ github.event.inputs.release_url }}
-          steps_to_skip: ${{ github.event.inputs.steps_to_skip }}
-
-      - name: Finalize Release
-        id: finalize-release
-        # env:
-          # The following are needed if you use legacy PyPI set up
-          # PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-          # PYPI_TOKEN_MAP: ${{ secrets.PYPI_TOKEN_MAP }}
-          # TWINE_USERNAME: __token__
-          # NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        uses: jupyter-server/jupyter_releaser/.github/actions/finalize-release@v2
-        with:
-          token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
-          release_url: ${{ steps.populate-release.outputs.release_url }}
-
-      - name: "** Next Step **"
-        if: ${{ success() }}
-        run: |
-          echo "Verify the final release"
-          echo ${{ steps.finalize-release.outputs.release_url }}
-
-      - name: "** Failure Message **"
-        if: ${{ failure() }}
-        run: |
-          echo "Failed to Publish the Draft Release Url:"
-          echo ${{ steps.populate-release.outputs.release_url }}
+    - name: Checkout
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        fetch-depth: 0
+    - name: Set up Go
+      uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5.6.0
+      with:
+        go-version-file: "go.mod"
+    - name: Run GoReleaser
+      uses: goreleaser/goreleaser-action@9ed2f89a662bf1735a48bc8557fd212fa902bebf # v6.1.0
+      with:
+        version: latest
+        args: release --clean
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

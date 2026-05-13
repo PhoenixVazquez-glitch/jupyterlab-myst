@@ -1,221 +1,136 @@
-# JupyterLab MyST Extension
+# Init Omega Py CLI
 
-[![Made with MyST][myst-badge]][myst-link]
-[![GitHub Actions Status][actions-badge]][actions-link]
-[![Launch on Binder][binder-badge]][binder-link]
-[![PyPI][pypi-badge]][pypi-link]
+The official CLI for the Init Omega Py REST API.
 
-Render markdown cells using [MyST Markdown](https://mystmd.org/), including support for rich frontmatter, interactive references, admonitions, figure numbering, tabs, proofs, exercises, glossaries, cards, and grids!
+It is generated with [Stainless](https://www.stainless.com/).
 
-![](./images/walkthrough.gif)
+<!-- x-release-please-start-version -->
 
-> **Note**: If you are looking for the version of this repository based on jupyterlab-markup,
-> see the [`v0 branch`](https://github.com/executablebooks/jupyterlab-myst/tree/v0).
+## Installation
 
-> **Info**
-> This extension is composed of a Python package named `jupyterlab_myst`
-> for the server extension and a NPM package named `jupyterlab-myst`
-> for the frontend extension.
+### Installing with Go
 
-## Requirements
+To test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.
 
-- JupyterLab >= 4.0.0
-
-## Install
-
-To install the extension, execute:
-
-```bash
-pip install jupyterlab_myst
+```sh
+go install 'github.com/PhoenixVazquez-glitch/jupyterlab-myst/cmd/init-omega-py@latest'
 ```
 
-## Features
+Once you have run `go install`, the binary is placed in your Go bin directory:
 
-`jupyterlab-myst` is a fully featured markdown renderer for technical documents, [get started with MyST Markdown](https://mystmd.org/guide/quickstart-myst-markdown). It supports the MyST `{eval}` inline role, which facilitates the interweaving of code outputs and prose. For example, we can use inline expressions to explore the properties of a NumPy array.
+- **Default location**: `$HOME/go/bin` (or `$GOPATH/bin` if GOPATH is set)
+- **Check your path**: Run `go env GOPATH` to see the base directory
 
-In the code cell:
+If commands aren't found after installation, add the Go bin directory to your PATH:
 
-```python
-import numpy as np
-array = np.arange(4)
+```sh
+# Add to your shell profile (.zshrc, .bashrc, etc.)
+export PATH="$PATH:$(go env GOPATH)/bin"
 ```
 
-In the markdown cell:
+<!-- x-release-please-end -->
 
-```markdown
-Let's consider the following array: {eval}`array`.
+### Running Locally
 
-We can compute the total: {eval}`array.sum()` and the maximum value is {eval}`array.max()`.
+After cloning the git repository for this project, you can use the
+`scripts/run` script to run the tool locally:
+
+```sh
+./scripts/run args...
 ```
-
-This will evaluate inline, and show:
-
-```text
-Let's consider the following array: array([0, 1, 2, 3]).
-
-We can compute the total: 6 and the maximum value is 3.
-```
-
-You can also use this with `ipywidgets`, and have inline interactive text:
-
-![](./images/cookies.gif)
-
-Or with `matplotlib` to show inline spark-lines:
-
-![](./images/stock-price.gif)
-
-You can also edit task lists directly in the rendered markdown.
-
-![](./images/tasklists-in-jupyterlab.gif)
 
 ## Usage
 
-[MyST][myst-quickstart] is a flavour of Markdown, which combines the fluid experience of writing Markdown with the programmable extensibility of reStructuredText. This extension for JupyterLab makes it easier to develop rich, computational narratives, technical documentation, and open scientific communication.
-
-### Execution 🚀
-
-To facilitate inline expressions, `jupyterlab-myst` defines a `jupyterlab-myst:executor` plugin. This plugin sends expression code fragments to the active kernel when the user "executes" a Markdown cell. To disable this functionality, disable the `jupyterlab-myst:executor` plugin with:
-
-```bash
-jupyter labextension disable jupyterlab-myst:executor
-```
-
-### Trust 🔎
-
-Jupyter Notebooks implement a [trust-based security model](https://jupyter-server.readthedocs.io/en/stable/operators/security.html). With the addition of inline expressions, Markdown cells are now considered when determining whether a given notebook is "trusted". Any Markdown cell with inline-expression metadata (with display data) is considered "untrusted". Like outputs, expression results are rendered using safe renderers if the cell is not considered trusted.
-Executing the notebook will cause each cell to be considered trusted.
-
-To facilitate this extension of the trust model, the `jupyterlab_myst` server extension replaces the `NotebookNotary` from `nbformat` with `MySTNotebookNotary`. This can be disabled with
-
-```bash
-jupyter server extension disable jupyterlab-myst
-```
-
-By disabling this extension, it will not be possible to render unsafe expression results from inline expressions; the `MySTNotebookNotary` adds additional code that makes it possible to mark Markdown cells as trusted.
-
-## Uninstall
-
-To remove the extension, execute:
-
-```bash
-pip uninstall jupyterlab_myst
-```
-
-## Troubleshoot
-
-If you are seeing the frontend extension, but it is not working, check
-that the server extension is enabled:
-
-```bash
-jupyter server extension list
-```
-
-If the server extension is installed and enabled, but you are not seeing
-the frontend extension, check the frontend extension is installed:
-
-```bash
-jupyter labextension list
-```
-
-## Contributing
-
-> [!IMPORTANT]
-> jupyterlab-myst uses `jsonnet` to render `package.jsonnet` into `package.json`
-
-### Development install
-
-Note: You will need NodeJS to build the extension package.
-
-```bash
-# Clone the repo to your local environment
-# Change directory to the jupyterlab_myst directory
-# Install package in development mode
-pip install -e ".[test]"
-# Link your development version of the extension with JupyterLab
-jupyter labextension develop . --overwrite
-# Server extension must be manually installed in develop mode
-jupyter server extension enable jupyterlab_myst
-# Rebuild extension Typescript source after making changes
-npm run build
-```
-
-You can watch the source directory and run JupyterLab at the same time in different terminals to watch for changes in the extension's source and automatically rebuild the extension.
-
-```bash
-# Watch the source directory in one terminal, automatically rebuilding when needed
-npm run watch
-# Run JupyterLab in another terminal
-jupyter lab
-```
-
-With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).
-
-By default, the `npm run build` command generates the source maps for this extension to make it easier to debug using the browser dev tools. To also generate source maps for the JupyterLab core extensions, you can run the following command:
-
-```bash
-jupyter lab build --minimize=False
-```
-
-### Development uninstall
-
-```bash
-# Server extension must be manually disabled in develop mode
-jupyter server extension disable jupyterlab_myst
-pip uninstall jupyterlab_myst
-```
-
-In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
-command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
-folder is located. Then you can remove the symlink named `jupyterlab-myst` within that folder.
-
-### Testing the extension
-
-#### Server tests
-
-This extension is using [Pytest](https://docs.pytest.org/) for Python code testing.
-
-Install test dependencies (needed only once):
+The CLI follows a resource-based command structure:
 
 ```sh
-pip install -e ".[test]"
-# Each time you install the Python package, you need to restore the front-end extension link
-jupyter labextension develop . --overwrite
+init-omega-py [resource] <command> [flags...]
 ```
-
-To execute them, run:
 
 ```sh
-pytest -vv -r ap --cov jupyterlab_myst
+init-omega-py store:orders create \
+  --api-key 'My API Key' \
+  --pet-id 1 \
+  --quantity 1 \
+  --status placed
 ```
 
-#### Frontend tests
+For details about specific commands, use the `--help` flag.
 
-This extension is using [Jest](https://jestjs.io/) for JavaScript code testing.
+### Environment variables
 
-To execute them, execute:
+| Environment variable | Required |
+| -------------------- | -------- |
+| `PETSTORE_API_KEY`   | yes      |
 
-```sh
-npm install
-npm test
+### Global flags
+
+- `--api-key` (can also be set with `PETSTORE_API_KEY` env var)
+- `--help` - Show command line usage
+- `--debug` - Enable debug logging (includes HTTP request/response details)
+- `--version`, `-v` - Show the CLI version
+- `--base-url` - Use a custom API backend URL
+- `--format` - Change the output format (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)
+- `--format-error` - Change the output format for errors (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)
+- `--transform` - Transform the data output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)
+- `--transform-error` - Transform the error output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)
+
+### Passing files as arguments
+
+To pass files to your API, you can use the `@myfile.ext` syntax:
+
+```bash
+init-omega-py <command> --arg @abe.jpg
 ```
 
-#### Integration tests
+Files can also be passed inside JSON or YAML blobs:
 
-This extension uses [Playwright](https://playwright.dev/docs/intro) for the integration tests (aka user level tests).
-More precisely, the JupyterLab helper [Galata](https://github.com/jupyterlab/jupyterlab/tree/master/galata) is used to handle testing the extension in JupyterLab.
+```bash
+init-omega-py <command> --arg '{image: "@abe.jpg"}'
+# Equivalent:
+init-omega-py <command> <<YAML
+arg:
+  image: "@abe.jpg"
+YAML
+```
 
-More information are provided within the [ui-tests](./ui-tests/README.md) README.
+If you need to pass a string literal that begins with an `@` sign, you can
+escape the `@` sign to avoid accidentally passing a file.
 
-### Packaging the extension
+```bash
+init-omega-py <command> --username '\@abe'
+```
 
-See [RELEASE](RELEASE.md)
+#### Explicit encoding
 
-[myst-badge]: https://img.shields.io/badge/made%20with-myst-orange
-[myst-link]: https://mystmd.org
-[myst-quickstart]: https://mystmd.org/guide/quickstart-myst-markdown
-[actions-badge]: https://github.com/executablebooks/jupyterlab-myst/workflows/Build/badge.svg
-[actions-link]: https://github.com/executablebooks/jupyterlab-myst/actions/workflows/build.yml
-[binder-badge]: https://mybinder.org/badge_logo.svg
-[binder-link]: https://mybinder.org/v2/gh/executablebooks/jupyterlab-myst/main?urlpath=lab
-[pypi-badge]: https://img.shields.io/pypi/v/jupyterlab-myst.svg
-[pypi-link]: https://pypi.org/project/jupyterlab-myst
+For JSON endpoints, the CLI tool does filetype sniffing to determine whether the
+file contents should be sent as a string literal (for plain text files) or as a
+base64-encoded string literal (for binary files). If you need to explicitly send
+the file as either plain text or base64-encoded data, you can use
+`@file://myfile.txt` (for string encoding) or `@data://myfile.dat` (for
+base64-encoding). Note that absolute paths will begin with `@file://` or
+`@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).
+
+```bash
+init-omega-py <command> --arg @data://file.txt
+```
+
+## Linking different Go SDK versions
+
+You can link the CLI against a different version of the Init Omega Py Go SDK
+for development purposes using the `./scripts/link` script.
+
+To link to a specific version from a repository (version can be a branch,
+git tag, or commit hash):
+
+```bash
+./scripts/link github.com/org/repo@version
+```
+
+To link to a local copy of the SDK:
+
+```bash
+./scripts/link ../path/to/initomegapy-go
+```
+
+If you run the link script without any arguments, it will default to `../initomegapy-go`.
